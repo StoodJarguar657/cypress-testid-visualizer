@@ -1,0 +1,51 @@
+.test-id-highlight {
+  outline: 2px dashed red !important;
+  position: relative;
+  cursor: pointer !important;
+}
+
+.test-id-tooltip {
+  position: absolute;
+  background: black;
+  color: white;
+  padding: 4px 6px;
+  font-size: 12px;
+  border-radius: 4px;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.test-id-copy-feedback {
+  position: absolute;
+  background: #4CAF50;
+  color: white;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  z-index: 10000;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
