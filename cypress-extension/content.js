@@ -37,17 +37,62 @@ function highlightElement(el) {
     const tooltip = document.createElement('div');
     tooltip.className = 'test-id-tooltip';
     tooltip.innerText = el.getAttribute('data-testid');
+    tooltip.style.cursor = 'pointer';
+    tooltip.title = 'Click to copy';
 
     const rect = el.getBoundingClientRect();
     tooltip.style.top = `${rect.top + window.scrollY - 25}px`;
     tooltip.style.left = `${rect.left + window.scrollX}px`;
     tooltip.id = '__testid_tooltip__';
+
+    // Add click handler to tooltip
+    const tooltipClickHandler = async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const testId = el.getAttribute('data-testid');
+      if (!testId) return;
+
+      try {
+        await navigator.clipboard.writeText(testId);
+        showCopyFeedback(el, testId);
+      } catch (err) {
+        console.error('Failed to copy data-testid:', err);
+        fallbackCopyTextToClipboard(testId);
+        showCopyFeedback(el, testId);
+      }
+
+      // Remove tooltip after copying
+      tooltip.remove();
+    };
+
+    tooltip.addEventListener('click', tooltipClickHandler);
+
+    // Keep tooltip visible when hovering over it
+    tooltip.addEventListener('mouseenter', () => {
+      // Cancel any pending removal
+    });
+
+    tooltip.addEventListener('mouseleave', () => {
+      // Remove tooltip when mouse leaves it
+      setTimeout(() => {
+        if (tooltip.parentNode) {
+          tooltip.remove();
+        }
+      }, 100);
+    });
+
     document.body.appendChild(tooltip);
   };
 
   const mouseLeaveHandler = () => {
-    const tooltip = document.getElementById('__testid_tooltip__');
-    if (tooltip) tooltip.remove();
+    // Delay tooltip removal to allow moving mouse to tooltip
+    setTimeout(() => {
+      const tooltip = document.getElementById('__testid_tooltip__');
+      if (tooltip && !tooltip.matches(':hover')) {
+        tooltip.remove();
+      }
+    }, 100);
   };
 
   const clickHandler = async (e) => {
