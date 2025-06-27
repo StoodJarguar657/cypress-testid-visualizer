@@ -12,8 +12,14 @@
   font-size: 12px;
   border-radius: 4px;
   z-index: 9999;
-  pointer-events: none;
+  pointer-events: auto;
   white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.test-id-tooltip:hover {
+  background: #333;
 }
 
 .test-id-copy-feedback {
